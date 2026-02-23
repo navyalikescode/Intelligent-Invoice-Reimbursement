@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Reimbursement System</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+    <div class="background-gradient"></div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="navbar-logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M2 7L12 12L22 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M12 12V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span>InvoiceReimburse</span>
+            </a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#analysis" class="nav-link">Analysis</a></li>
+                <li class="nav-item"><a href="#chatbot" class="nav-link">Chatbot</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+            </ul>
+            <button id="theme-toggle" class="theme-toggle">
+                <svg class="sun-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor" /></svg>
+                <svg class="moon-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21.21 15.89A9.87 9.87 0 0112.12 3a9.87 9.87 0 00-9.12 12.12 9.87 9.87 0 0012.12 9.12 9.87 9.87 0 006.09-8.35z" fill="currentColor" /></svg>
+            </button>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="hero-container">
+            <div class="hero-text">
+                <h1 class="animate-fade-in-up">Intelligent Invoice Reimbursement</h1>
+                <p class="animate-fade-in-up" style="animation-delay: 0.2s;">Automate, analyze, and query employee reimbursements with our AI-powered platform.</p>
+                <a href="#analysis" class="btn btn-primary animate-fade-in-up" style="animation-delay: 0.4s;">Get Started</a>
+            </div>
+            <div id="hero-animation" class="hero-image animate-fade-in" style="animation-delay: 0.6s;"></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="analysis" class="card animate-on-scroll">
+            <h2 class="card-title">Invoice Analysis</h2>
+            <form id="analysisForm" novalidate>
+                <div class="form-group floating-label-group">
+                    <input type="text" id="employeeNameAnalysis" name="employee_name" placeholder=" " required>
+                    <label for="employeeNameAnalysis">Employee Name</label>
+                    <span class="validation-icon"></span>
+                </div>
+                <div class="form-group">
+                    <label for="policyFile">HR Policy</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" id="policyFile" name="policy" accept=".pdf,.docx" required>
+                        <label for="policyFile" class="file-input-label">
+                            <span class="file-input-icon"></span>
+                            <span class="file-input-text">Choose a file...</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="invoiceZip">Invoices (ZIP)</label>
+                     <div class="file-input-wrapper">
+                        <input type="file" id="invoiceZip" name="invoices" accept=".zip" required>
+                        <label for="invoiceZip" class="file-input-label">
+                            <span class="file-input-icon"></span>
+                            <span class="file-input-text">Choose a file...</span>
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="analyzeBtn" disabled>
+                    <span class="btn-text">Analyze Invoices</span>
+                    <span class="spinner"></span>
+                </button>
+            </form>
+            <div id="analysisResult" class="result-box" style="display: none;"></div>
+            <div id="resultActions" style="display: none; margin-top: 1rem;">
+                <button id="downloadJsonBtn" class="btn btn-secondary">Download JSON</button>
+                <button id="copyJsonBtn" class="btn btn-secondary">Copy JSON</button>
+            </div>
+        </section>
+
+        <section id="chatbot" class="card animate-on-scroll">
+            <div class="card-header-flex">
+                <h2 class="card-title">Invoice Chatbot</h2>
+                <button id="clearChatBtn" class="btn-icon" title="Clear Chat"></button>
+            </div>
+            <div id="chatbot-viewport">
+                <div id="chatHistory"></div>
+                <div id="typing-indicator" style="display: none;">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <form id="chatbotForm">
+                <div class="form-group floating-label-group">
+                    <input type="text" id="chatbotQuery" placeholder=" " required>
+                     <label for="chatbotQuery">Ask a question...</label>
+                </div>
+                 <div class="form-group floating-label-group">
+                    <input type="text" id="employeeNameChatbot" placeholder=" ">
+                    <label for="employeeNameChatbot">Employee Name (Optional Filter)</label>
+                </div>
+                <div id="chatbot-suggestions">
+                    <button class="suggestion-chip">List all employees</button>
+                    <button class="suggestion-chip">Total reimbursement for Mr. C</button>
+                    <button class="suggestion-chip">Show all declined invoices</button>
+                </div>
+                <button type="submit" class="btn btn-secondary" id="chatbotBtn">
+                    <span class="btn-text">Ask</span>
+                    <span class="spinner"></span>
+                </button>
+            </form>
+        </section>
+
+        <section id="about" class="card animate-on-scroll">
+            <h2 class="card-title">About The System</h2>
+            <p>This intelligent system streamlines the invoice reimbursement process by leveraging advanced AI capabilities. It features two core components:</p>
+            <ul>
+                <li><strong>Invoice Analysis:</strong> Automatically processes PDF invoices against a given HR reimbursement policy using Large Language Models (LLMs) to determine reimbursement status and provides detailed reasons.</li>
+                <li><strong>RAG LLM Chatbot:</strong> An interactive chatbot that allows users to query processed invoice data using natural language. It retrieves relevant information from a vector database, enabling efficient search and retrieval.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2025 InvoiceReimburse. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" title="Go to top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 19V5M5 12L12 5L19 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+    <div id="toast-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+
+</html>

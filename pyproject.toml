@@ -1,0 +1,30 @@
+[project]
+name = "invoice-reimbursement-system"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Amit-kr26",email = "amitkr97531@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9,<4.0"
+dependencies = [
+    "fastapi (>=0.115.14,<0.116.0)",
+    "uvicorn (>=0.34.3,<0.35.0)",
+    "python-multipart (>=0.0.20,<0.0.21)",
+    "langchain (>=0.3.26,<0.4.0)",
+    "langchain-google-genai (>=2.1.5,<3.0.0)",
+    "chromadb (>=1.0.13,<2.0.0)",
+    "pypdf (>=5.6.1,<6.0.0)",
+    "unstructured (>=0.18.1,<0.19.0)",
+    "langchain-community (>=0.3.26,<0.4.0)",
+    "python-docx (>=1.2.0,<2.0.0)",
+    "python-multipart (>=0.0.20,<0.0.21)"
+]
+
+[tool.poetry]
+packages = [{include = "invoice_reimbursement_system", from = "src"}]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
